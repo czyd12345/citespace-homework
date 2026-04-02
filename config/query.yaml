@@ -1,7 +1,5 @@
 query:
 object:
-- "photonic computing"
-- "optical computing"
-method:
-- "neural network"
+- "bci interface"
+- "signal processing"
 time_window: [2020, 2025]
