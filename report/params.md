@@ -8,7 +8,7 @@
 | **项目名称 (EN)** | A Survey on EEG Signal Acquisition and Information Compression for Fully Implantable Brain-Computer Interface Systems |
 | **研究范式** | 系统综述 (Systematic Review) / 可复现文献处理流程 |
 | **研究重点** | 关注**低功耗、小体积、高压缩比**的硬件电路与前端信号处理算法 |
-| **已实际检索数据库** | Web of Science (WoS), 中国知网 (CNKI) |
+| **已实际检索数据库** | Web of Science (WoS) |
 | **计划扩展数据库** | IEEE Xplore, PubMed, Scopus |
 
 ---

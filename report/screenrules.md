@@ -49,25 +49,36 @@
 
 ```python
 def screen_logic(item):
-    # 包含词：侧重电路与处理
-    include_keywords = ['circuit', 'eeg', 'brain-computer interface', 'signal processing', 'information']
-    # 排除词：排除侵入式、动物及深度学习
-    exclude_keywords = ['implantable', 'animal', 'invasive', 'deep learning'] 
+    include_keywords = [
+        'low power', 'energy efficient', 'data compression', 
+        'signal acquisition', 'on-chip', 'asic', 'fpga',
+        'eeg', 'brain-computer interface', 'bci',
+        'integrated circuit', 'analog frontend', 'afe'
+    ]
     
-    text = (item['TI'] + " " + item['AB']).lower()
     
-    # 逻辑判定
-    if not any(kw in text for kw in include_keywords):
+    exclude_keywords = [
+        'animal', 'rat', 'monkey', 'canine',
+        'deep learning', 'convolutional neural network', 'transformer model'
+    ]
+    
+    title_abs = (item['TI'] + " " + item['AB']).lower()
+    
+    # E1: 主题不相关
+    if not any(kw in title_abs for kw in include_keywords):
         return "Exclude", "E1"
+    text = (item['TI'] + " " + item['AB']).lower()
+    # E4: 时间不符 (示例：只要 2010 年以后的)
+    # 逻辑判断
+    if not any(kw in text for kw in include_keywords):
+        return "Exclude", "E1 - Topic Irrelevant"
     
     if any(kw in text for kw in exclude_keywords):
-        # 细分排除原因
-        if 'deep learning' in text: return "Exclude", "E4"
-        if 'animal' in text: return "Exclude", "E3"
-        return "Exclude", "E2"
+        if 'deep learning' in text or 'neural network' in text:
+            return "Exclude", "E4 - Pure Algorithm/DL"
+        return "Exclude", "E3 - Non-human study"
 
     return "Include", "Pass"
-```
 
 ---
 
@@ -76,6 +87,3 @@ def screen_logic(item):
 2.  **证据链** (`evidence_chain.md`)：重点提取电路架构和信号处理流。
 3.  **PRISMA 数据**：用于统计各阶段被 E1-E4 拦截的文献数量。
 
----
-
-**提示：** 由于你排除了 `deep learning`，脚本可能会过滤掉目前市面上大量的最新文献（因为现在 EEG 领域深度学习非常热门）。你是否需要针对“混合架构”（即电路实现深度学习加速器）做特殊处理？
